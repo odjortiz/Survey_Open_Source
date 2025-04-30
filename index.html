@@ -1,36 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Encuesta Personal Bienestar Universitario</title>
-  <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8" />
+  <title>Encuesta Navegable</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .pregunta { display: none; }
+    .pregunta.activa { display: block; }
+    .botones { margin-top: 20px; }
+    label { display: block; margin: 10px 0 5px; }
+    input, select { width: 100%; padding: 6px; }
+    .barra-progreso { margin-bottom: 20px; }
+    .barra-progreso span { margin-right: 10px; }
+  </style>
 </head>
 <body>
-  <h2>Personal por área de Bienestar Universitario</h2>
+  <h1>Encuesta de Presupuesto por Área</h1>
+  <div class="barra-progreso" id="barraProgreso">
+    Pregunta <span id="numPregunta">1</span> de <span id="totalPreguntas">2</span>
+  </div>
   <form id="encuestaForm">
-    <table id="matriz">
-      <thead>
-        <tr>
-          <th>Año<br><span class="ejemplo">AAAA<br>Ej: 2024</span></th>
-          <th>Identificador Persona<br><span class="ejemplo">Número encriptado</span></th>
-          <th>Nivel jerárquico</th>
-          <th>Área Temática</th>
-          <th>Nivel educativo</th>
-          <th>Tipo de Contrato</th>
-          <th>Estado del contrato</th>
-          <th>Género</th>
-          <th>Fecha de nacimiento<br><span class="ejemplo">DD-MM-AAAA<br>Ej: 16-04-1980</span></th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
-     <tbody id="matrizBody">
-        <!-- Filas dinámicas aquí -->
-      </tbody>
-    </table>
-    <button type="button" onclick="agregarFila()">Agregar fila</button>
-    <br><br>
-    <button type="submit">Enviar</button>
+    <!-- Pregunta 1 -->
+    <div class="pregunta activa" id="pregunta1">
+      <label for="anio">Año (Ej: 2024):</label>
+      <input type="text" id="anio" name="anio" pattern="\d{4}" placeholder="AAAA" required />
+      <div class="botones">
+        <button type="button" onclick="siguientePregunta(1)">Siguiente</button>
+      </div>
+    </div>
+    <!-- Pregunta 2 -->
+    <div class="pregunta" id="pregunta2">
+      <label for="area">Área:</label>
+      <select id="area" name="area" required>
+        <option value="" disabled selected>Seleccione un área</option>
+        <option>Deporte</option>
+        <option>Actividad Física</option>
+        <option>Cultura</option>
+        <option>Salud</option>
+        <option>Deserción</option>
+      </select>
+      <label for="porcentaje">Porcentaje asignado (%):</label>
+      <input type="number" id="porcentaje" name="porcentaje" min="0" max="100" step="0.01" placeholder="Ej: 12" required />
+      <div class="botones">
+        <button type="button" onclick="anteriorPregunta(2)">Anterior</button>
+        <button type="submit">Enviar</button>
+      </div>
+    </div>
   </form>
-  <script src="encuesta.js"></script>
+  <div id="resultado"></div>
+  <script>
+    // Navegación entre preguntas
+    let preguntaActual = 1;
+    const totalPreguntas = 2;
+    document.getElementById('totalPreguntas').textContent = totalPreguntas;
+
+    function mostrarPregunta(n) {
+      for (let i = 1; i <= totalPreguntas; i++) {
+        document.getElementById('pregunta' + i).classList.remove('activa');
+      }
+      document.getElementById('pregunta' + n).classList.add('activa');
+      document.getElementById('numPregunta').textContent = n;
+      preguntaActual = n;
+    }
+
+    function siguientePregunta(n) {
+      // Validar antes de avanzar
+      const campos = document.querySelectorAll('#pregunta' + n + ' input, #pregunta' + n + ' select');
+      for (const campo of campos) {
+        if (!campo.checkValidity()) {
+          campo.reportValidity();
+          return;
+        }
+      }
+      mostrarPregunta(n + 1);
+    }
+
+    function anteriorPregunta(n) {
+      mostrarPregunta(n - 1);
+    }
+
+    // Envío del formulario
+    document.getElementById('encuestaForm').onsubmit = function(e) {
+      e.preventDefault();
+      // Validar última pregunta
+      const campos = document.querySelectorAll('#pregunta2 input, #pregunta2 select');
+      for (const campo of campos) {
+        if (!campo.checkValidity()) {
+          campo.reportValidity();
+          return;
+        }
+      }
+      // Mostrar resumen
+      const anio = document.getElementById('anio').value;
+      const area = document.getElementById('area').value;
+      const porcentaje = document.getElementById('porcentaje').value;
+      document.getElementById('resultado').textContent =
+        `¡Gracias! Año: ${anio}, Área: ${area}, Porcentaje: ${porcentaje}%`;
+      this.style.display = 'none';
+      document.getElementById('barraProgreso').style.display = 'none';
+    };
+  </script>
 </body>
 </html>
