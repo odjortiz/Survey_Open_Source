@@ -1,88 +1,65 @@
-// Opciones de listas
-const nivelesJerarquicos = [
-  "Operativo", "Asistencial", "Profesional", "Coordinación", "Jefatura", "Dirección", "Vicerrectoría"
-];
-const areasTematicas = [
-  "Deporte", "Actividad Física", "Cultura", "Salud", "Deserción"
-];
-const nivelesEducativos = [
-  "Básica", "Media", "Técnico Profesional", "Tecnológico", "Profesional", "Especialización", "Maestría", "Doctorado"
-];
-const tiposContrato = [
-  "Contrato a Término Indefinido", "Contrato a Término Fijo", "Contrato civil por Prestación de Servicios",
-  "Contrato Obra o Labor", "Contrato de aprendizaje"
-];
-const estadosContrato = [
-  "Activo", "Inactivo"
-];
-const generos = [
-  "Femenino", "Masculino", "No Binario"
-];
+const totalSecciones = 5;
+let seccionActual = 1;
 
-// Agrega una fila vacía al cargar la página
-window.onload = () => agregarFila();
+document.getElementById('totalSecciones').textContent = totalSecciones;
 
-function agregarFila() {
-  const tbody = document.getElementById('matrizBody');
-  const fila = document.createElement('tr');
-
-  fila.innerHTML = `
-    <td><input type="text" name="anio[]" pattern="\\d{4}" placeholder="AAAA" required></td>
-    <td><input type="text" name="id[]" required></td>
-    <td>${crearSelect("nivel[]", nivelesJerarquicos)}</td>
-    <td>${crearSelect("area[]", areasTematicas)}</td>
-    <td>${crearSelect("educacion[]", nivelesEducativos)}</td>
-    <td>${crearSelect("contrato[]", tiposContrato)}</td>
-    <td>${crearSelect("estado[]", estadosContrato)}</td>
-    <td>${crearSelect("genero[]", generos)}</td>
-    <td><input type="text" name="fecha[]" pattern="\\d{2}-\\d{2}-\\d{4}" placeholder="DD-MM-AAAA" required></td>
-    <td><button type="button" onclick="eliminarFila(this)">🗑️</button></td>
-  `;
-  tbody.appendChild(fila);
-}
-
-function crearSelect(name, opciones) {
-  let html = `<select name="${name}" required>`;
-  html += `<option value="" disabled selected>Seleccione</option>`;
-  opciones.forEach(op => {
-    html += `<option value="${op}">${op}</option>`;
-  });
-  html += `</select>`;
-  return html;
-}
-
-function eliminarFila(btn) {
-  const fila = btn.closest('tr');
-  fila.remove();
-}
-
-document.getElementById('encuestaForm').onsubmit = function(e) {
-  // Validación extra (opcional)
-  const anios = document.querySelectorAll('input[name="anio[]"]');
-  const fechas = document.querySelectorAll('input[name="fecha[]"]');
-  let valido = true;
-
-  anios.forEach(input => {
-    if (!/^\d{4}$/.test(input.value)) {
-      input.style.border = '2px solid red';
-      valido = false;
-    } else {
-      input.style.border = '';
-    }
-  });
-
-  fechas.forEach(input => {
-    if (!/^\d{2}-\d{2}-\d{4}$/.test(input.value)) {
-      input.style.border = '2px solid red';
-      valido = false;
-    } else {
-      input.style.border = '';
-    }
-  });
-
-  if (!valido) {
-    alert("Por favor, revise los campos resaltados.");
-    e.preventDefault();
+// Mostrar la sección actual
+function mostrarSeccion(n) {
+  for (let i = 1; i <= totalSecciones; i++) {
+    document.getElementById('seccion' + i).classList.remove('activa');
   }
-  // Aquí puedes agregar el envío a un backend, Google Sheets, etc.
-};
+  document.getElementById('seccion' + n).classList.add('activa');
+  document.getElementById('numSeccion').textContent = n;
+  seccionActual = n;
+}
+
+// Siguiente sección con validación
+function siguienteSeccion(n) {
+  const inputs = document.querySelectorAll(`#seccion${n} input, #seccion${n} select`);
+  for (const input of inputs) {
+    if (!input.disabled && !input.checkValidity()) {
+      input.reportValidity();
+      return;
+    }
+  }
+  if (n < totalSecciones) mostrarSeccion(n + 1);
+}
+
+// Anterior sección
+function anteriorSeccion(n) {
+  if (n > 1) mostrarSeccion(n - 1);
+}
+
+// Lógica para habilitar/deshabilitar tipoEntidad
+document.getElementById('fuenteRecursos').addEventListener('change', function() {
+  const tipoEntidad = document.getElementById('tipoEntidad');
+  if (this.value === 'Externo') {
+    tipoEntidad.disabled = false;
+    tipoEntidad.required = true;
+  } else {
+    tipoEntidad.disabled = true;
+    tipoEntidad.required = false;
+    tipoEntidad.value = '';
+  }
+});
+
+// Envío del formulario
+document.getElementById('encuestaForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // Validar última sección
+  const inputs = document.querySelectorAll(`#seccion${totalSecciones} input, #seccion${totalSecciones} select`);
+  for (const input of inputs) {
+    if (!input.disabled && !input.checkValidity()) {
+      input.reportValidity();
+      return;
+    }
+  }
+  // Mostrar mensaje final
+  document.getElementById('encuestaForm').classList.add('oculto');
+  document.getElementById('barraProgreso').classList.add('oculto');
+  document.getElementById('mensajeFinal').classList.remove('oculto');
+  document.getElementById('mensajeFinal').textContent = '¡Gracias! Sus respuestas han sido registradas.';
+});
+
+// Inicializar
+mostrarSeccion(1);
