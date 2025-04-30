@@ -3,186 +3,251 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Observatorio de Bienestar Universitario</title>
+  <title>Encuesta Observatorio de Bienestar Universitario</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main>
     <h1>Encuesta Observatorio de Bienestar Universitario</h1>
     <div id="barraProgreso">
-      Sección <span id="numSeccion">1</span> de <span id="totalSecciones">4</span>
+      Sección <span id="numSeccion">1</span> de <span id="totalSecciones">5</span>
     </div>
     <form id="encuestaForm" novalidate>
-      <!-- Sección 1: Presupuesto -->
+      <!-- Sección 1: Presupuesto asignado -->
       <section class="seccion activa" id="seccion1">
-        <h2>1. Gestión de Bienestar Universitario</h2>
-        <label for="anio1">Año (Ej: 2024):</label>
-        <input type="text" id="anio1" name="anio1" pattern="^\d{4}$" required placeholder="AAAA" />
-
-        <label for="presupuestoRango">Rango presupuestal anual destinado a Bienestar Universitario (millones de pesos):</label>
-        <select id="presupuestoRango" name="presupuestoRango" required>
-          <option value="" disabled selected>Seleccione un rango</option>
-          <option>Menor a 499</option>
-          <option>Entre 500 y 699</option>
-          <option>Entre 700 y 899</option>
-          <option>Entre 900 y 1100</option>
-          <option>Mayor a 1101</option>
-        </select>
-
-        <label for="fuenteRecursos">Fuente de los recursos destinados anualmente:</label>
-        <select id="fuenteRecursos" name="fuenteRecursos" required>
-          <option value="" disabled selected>Seleccione fuente</option>
-          <option>Interno</option>
-          <option>Externo</option>
-        </select>
-
-        <label for="tipoEntidad">Si es externa, tipo de entidad:</label>
-        <select id="tipoEntidad" name="tipoEntidad" disabled>
-          <option value="" disabled selected>Seleccione tipo</option>
-          <option>Caja de Compensación</option>
-          <option>Empresa Privada</option>
-          <option>Gubernamental</option>
-          <option>Otro</option>
-        </select>
-
-        <label for="porcentajeFuente">Porcentaje según fuente:</label>
-        <select id="porcentajeFuente" name="porcentajeFuente" required>
-          <option value="" disabled selected>Seleccione porcentaje</option>
-          <option>Entre el 1% y el 25%</option>
-          <option>Entre el 26% y el 50%</option>
-          <option>Entre el 51% y el 75%</option>
-          <option>100%</option>
-        </select>
-
+        <h2>1. Presupuesto asignado a las actividades de Bienestar universitario en la IES</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Seleccione el rango Presupuestal anual destinado a Bienestar Universitario<br>(millones de pesos)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="anio1" pattern="^\d{4}$" placeholder="AAAA" required /></td>
+              <td>
+                <select name="presupuestoRango" required>
+                  <option value="" disabled selected>Seleccione un rango</option>
+                  <option>Menor a 499</option>
+                  <option>Entre 500 y 699</option>
+                  <option>Entre 700 y 899</option>
+                  <option>Entre 900 y 1100</option>
+                  <option>Mayor a 1101</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <div class="botones">
           <button type="button" onclick="siguienteSeccion(1)">Siguiente</button>
         </div>
       </section>
 
-      <!-- Sección 2: Presupuesto por área -->
+      <!-- Sección 2: Fuente de recursos -->
       <section class="seccion" id="seccion2">
-        <h2>2. Porcentaje de presupuesto asignado por área</h2>
-        <label for="anio2">Año (Ej: 2024):</label>
-        <input type="text" id="anio2" name="anio2" pattern="^\d{4}$" required placeholder="AAAA" />
-
-        <label for="area">Área:</label>
-        <select id="area" name="area" required>
-          <option value="" disabled selected>Seleccione área</option>
-          <option>Deporte</option>
-          <option>Actividad Física</option>
-          <option>Cultura</option>
-          <option>Salud</option>
-          <option>Deserción</option>
-        </select>
-
-        <label for="porcentajeArea">Porcentaje asignado (%):</label>
-        <input type="number" id="porcentajeArea" name="porcentajeArea" min="0" max="100" step="0.1" required placeholder="Ej: 12" />
-
+        <h2>2. Fuente de los recursos destinados anualmente por la IES para Bienestar Universitario</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Fuente</th>
+              <th>Si es externa, tipo de entidad</th>
+              <th>Porcentaje según fuente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="anio2" pattern="^\d{4}$" placeholder="AAAA" required /></td>
+              <td>
+                <select name="fuenteRecursos" id="fuenteRecursos" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Interno</option>
+                  <option>Externo</option>
+                </select>
+              </td>
+              <td>
+                <select name="tipoEntidad" id="tipoEntidad" disabled>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Caja de Compensación</option>
+                  <option>Empresa Privada</option>
+                  <option>Gubernamental</option>
+                  <option>Otro</option>
+                </select>
+              </td>
+              <td>
+                <select name="porcentajeFuente" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Entre el 1% y el 25%</option>
+                  <option>Entre el 26% y el 50%</option>
+                  <option>Entre el 51% y el 75%</option>
+                  <option>100%</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <div class="botones">
           <button type="button" onclick="anteriorSeccion(2)">Anterior</button>
           <button type="button" onclick="siguienteSeccion(2)">Siguiente</button>
         </div>
       </section>
 
-      <!-- Sección 3: Personal por área -->
+      <!-- Sección 3: Porcentaje por área -->
       <section class="seccion" id="seccion3">
-        <h2>3. Personal por área de Bienestar Universitario</h2>
-        <label for="anio3">Año (Ej: 2024):</label>
-        <input type="text" id="anio3" name="anio3" pattern="^\d{4}$" required placeholder="AAAA" />
-
-        <label for="identificadorPersona">Identificador Persona:</label>
-        <input type="text" id="identificadorPersona" name="identificadorPersona" required />
-
-        <label for="nivelJerarquico">Nivel jerárquico:</label>
-        <select id="nivelJerarquico" name="nivelJerarquico" required>
-          <option value="" disabled selected>Seleccione nivel</option>
-          <option>Operativo</option>
-          <option>Asistencial</option>
-          <option>Profesional</option>
-          <option>Coordinación</option>
-          <option>Jefatura</option>
-          <option>Dirección</option>
-          <option>Vicerrectoría</option>
-        </select>
-
-        <label for="areaTematica">Área temática:</label>
-        <select id="areaTematica" name="areaTematica" required>
-          <option value="" disabled selected>Seleccione área</option>
-          <option>Deporte</option>
-          <option>Actividad Física</option>
-          <option>Cultura</option>
-          <option>Salud</option>
-          <option>Deserción</option>
-        </select>
-
-        <label for="nivelEducativo">Nivel educativo:</label>
-        <select id="nivelEducativo" name="nivelEducativo" required>
-          <option value="" disabled selected>Seleccione nivel</option>
-          <option>Básica</option>
-          <option>Media</option>
-          <option>Técnico Profesional</option>
-          <option>Tecnológico</option>
-          <option>Profesional</option>
-          <option>Especialización</option>
-          <option>Maestría</option>
-          <option>Doctorado</option>
-        </select>
-
-        <label for="tipoContrato">Tipo de Contrato:</label>
-        <select id="tipoContrato" name="tipoContrato" required>
-          <option value="" disabled selected>Seleccione tipo</option>
-          <option>Contrato a Término Indefinido</option>
-          <option>Contrato a Término Fijo</option>
-          <option>Contrato civil por Prestación de Servicios</option>
-          <option>Contrato Obra o Labor</option>
-          <option>Contrato de aprendizaje</option>
-        </select>
-
-        <label for="estadoContrato">Estado del contrato:</label>
-        <select id="estadoContrato" name="estadoContrato" required>
-          <option value="" disabled selected>Seleccione estado</option>
-          <option>Activo</option>
-          <option>Inactivo</option>
-        </select>
-
-        <label for="genero">Género:</label>
-        <select id="genero" name="genero" required>
-          <option value="" disabled selected>Seleccione género</option>
-          <option>Femenino</option>
-          <option>Masculino</option>
-          <option>No Binario</option>
-        </select>
-
-        <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required />
-
+        <h2>3. Porcentaje del presupuesto asignado a cada área</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Área</th>
+              <th>Porcentaje asignado (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="anio3" pattern="^\d{4}$" placeholder="AAAA" required /></td>
+              <td>
+                <select name="area" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Deporte</option>
+                  <option>Actividad Física</option>
+                  <option>Cultura</option>
+                  <option>Salud</option>
+                  <option>Deserción</option>
+                </select>
+              </td>
+              <td><input type="number" name="porcentajeArea" min="0" max="100" step="0.1" required placeholder="Ej: 12" /></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="botones">
           <button type="button" onclick="anteriorSeccion(3)">Anterior</button>
           <button type="button" onclick="siguienteSeccion(3)">Siguiente</button>
         </div>
       </section>
 
-      <!-- Sección 4: Disponibilidad de instalaciones -->
+      <!-- Sección 4: Personal por área -->
       <section class="seccion" id="seccion4">
-        <h2>4. Disponibilidad de instalaciones para Actividad Física</h2>
-        <label for="anio4">Año (Ej: 2024):</label>
-        <input type="text" id="anio4" name="anio4" pattern="^\d{4}$" required placeholder="AAAA" />
-
-        <label for="tipoInstalacion">Tipo de instalación:</label>
-        <select id="tipoInstalacion" name="tipoInstalacion" required>
-          <option value="" disabled selected>Seleccione tipo</option>
-          <option>Gimnasio</option>
-          <option>Cancha cubierta</option>
-          <option>Cancha múltiple descubierta</option>
-          <option>Pista de atletismo</option>
-          <option>Piscina</option>
-        </select>
-
-        <label for="cantidadEspacios">Cantidad de espacios:</label>
-        <input type="number" id="cantidadEspacios" name="cantidadEspacios" min="0" required />
-
+        <h2>4. Personal por área de Bienestar Universitario</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Identificador Persona</th>
+              <th>Nivel jerárquico</th>
+              <th>Área Temática</th>
+              <th>Nivel educativo</th>
+              <th>Tipo de Contrato</th>
+              <th>Estado del contrato</th>
+              <th>Género</th>
+              <th>Fecha de nacimiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="anio4" pattern="^\d{4}$" placeholder="AAAA" required /></td>
+              <td><input type="text" name="identificadorPersona" required /></td>
+              <td>
+                <select name="nivelJerarquico" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Operativo</option>
+                  <option>Asistencial</option>
+                  <option>Profesional</option>
+                  <option>Coordinación</option>
+                  <option>Jefatura</option>
+                  <option>Dirección</option>
+                  <option>Vicerrectoría</option>
+                </select>
+              </td>
+              <td>
+                <select name="areaTematica" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Deporte</option>
+                  <option>Actividad Física</option>
+                  <option>Cultura</option>
+                  <option>Salud</option>
+                  <option>Deserción</option>
+                </select>
+              </td>
+              <td>
+                <select name="nivelEducativo" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Básica</option>
+                  <option>Media</option>
+                  <option>Técnico Profesional</option>
+                  <option>Tecnológico</option>
+                  <option>Profesional</option>
+                  <option>Especialización</option>
+                  <option>Maestría</option>
+                  <option>Doctorado</option>
+                </select>
+              </td>
+              <td>
+                <select name="tipoContrato" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Contrato a Término Indefinido</option>
+                  <option>Contrato a Término Fijo</option>
+                  <option>Contrato civil por Prestación de Servicios</option>
+                  <option>Contrato Obra o Labor</option>
+                  <option>Contrato de aprendizaje</option>
+                </select>
+              </td>
+              <td>
+                <select name="estadoContrato" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Activo</option>
+                  <option>Inactivo</option>
+                </select>
+              </td>
+              <td>
+                <select name="genero" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Femenino</option>
+                  <option>Masculino</option>
+                  <option>No Binario</option>
+                </select>
+              </td>
+              <td><input type="date" name="fechaNacimiento" required /></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="botones">
           <button type="button" onclick="anteriorSeccion(4)">Anterior</button>
+          <button type="button" onclick="siguienteSeccion(4)">Siguiente</button>
+        </div>
+      </section>
+
+      <!-- Sección 5: Planta física -->
+      <section class="seccion" id="seccion5">
+        <h2>5. Disponibilidad de instalaciones para Actividad Física</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Tipo de instalación</th>
+              <th>Cantidad de espacios</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="anio5" pattern="^\d{4}$" placeholder="AAAA" required /></td>
+              <td>
+                <select name="tipoInstalacion" required>
+                  <option value="" disabled selected>Seleccione</option>
+                  <option>Gimnasio</option>
+                  <option>Cancha cubierta</option>
+                  <option>Cancha múltiple descubierta</option>
+                  <option>Pista de atletismo</option>
+                  <option>Piscina</option>
+                </select>
+              </td>
+              <td><input type="number" name="cantidadEspacios" min="0" required /></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="botones">
+          <button type="button" onclick="anteriorSeccion(5)">Anterior</button>
           <button type="submit">Enviar</button>
         </div>
       </section>
