@@ -1,41 +1,55 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
   margin: 0;
-  padding: 20px;
-  color: #333;
+  padding: 0;
+  color: #222;
 }
 
 main {
-  max-width: 700px;
-  margin: 0 auto;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 30px 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 32px rgba(44,62,80,0.12);
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #2c3e50;
+  margin-bottom: 24px;
+  color: #215e8b;
 }
 
 h2 {
-  color: #34495e;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 5px;
+  color: #215e8b;
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.15rem;
 }
 
-label {
-  display: block;
-  margin-top: 15px;
+#barraProgreso {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 22px;
+  color: #2980b9;
+  font-size: 1.1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+th, td {
+  border: 1px solid #d1e0e7;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: #eaf3fa;
   font-weight: 600;
 }
 
@@ -44,55 +58,59 @@ input[type="date"],
 input[type="number"],
 select {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1.8px solid #ccc;
+  padding: 7px;
+  margin-top: 2px;
+  border: 1.5px solid #bfc9d1;
   border-radius: 5px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  background: #f8fafc;
+  transition: border-color 0.3s;
 }
 
-input[type="text"]:focus,
-input[type="date"]:focus,
-input[type="number"]:focus,
+input:focus,
 select:focus {
-  border-color: #3498db;
+  border-color: #2980b9;
   outline: none;
 }
 
 .botones {
-  margin-top: 25px;
+  margin-top: 18px;
   display: flex;
   justify-content: space-between;
 }
 
 button {
-  background-color: #3498db;
-  color: white;
+  background: #2980b9;
+  color: #fff;
   border: none;
-  padding: 12px 25px;
+  padding: 10px 24px;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #2980b9;
+  background: #215e8b;
 }
 
-.pregunta {
+.seccion {
   display: none;
 }
 
-.pregunta.activa {
+.seccion.activa {
   display: block;
 }
 
-#barraProgreso {
+.oculto {
+  display: none;
+}
+
+#mensajeFinal {
   text-align: center;
-  font-weight: 700;
-  margin-bottom: 20px;
-  font-size: 1.1rem;
-  color: #555;
+  font-size: 1.2rem;
+  color: #27ae60;
+  margin-top: 30px;
+  font-weight: bold;
 }
