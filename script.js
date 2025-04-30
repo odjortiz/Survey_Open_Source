@@ -1,79 +1,58 @@
-const totalPreguntas = 4;
-let preguntaActual = 1;
+let currentSection = 0;
+const sections = document.querySelectorAll('.survey-section');
+const totalSections = sections.length;
 
-document.getElementById('totalPreguntas').textContent = totalPreguntas;
-
-function mostrarPregunta(n) {
-  for (let i = 1; i <= totalPreguntas; i++) {
-    const elem = document.getElementById('pregunta' + i);
-    if (elem) {
-      elem.classList.remove('activa');
-    }
-  }
-  const pregunta = document.getElementById('pregunta' + n);
-  if (pregunta) {
-    pregunta.classList.add('activa');
-  }
-  document.getElementById('numPregunta').textContent = n;
-  preguntaActual = n;
+function updateProgress() {
+    const progress = (currentSection + 1) / totalSections * 100;
+    document.getElementById('progress').style.width = `${progress}%`;
 }
 
-// Navegar a la siguiente pregunta con validación
-function siguientePregunta(n) {
-  const form = document.getElementById('encuestaForm');
-  const inputs = document.querySelectorAll(`#pregunta${n} input, #pregunta${n} select`);
-  
-  for (const input of inputs) {
-    if (!input.checkValidity()) {
-      input.reportValidity();
-      return;
-    }
-  }
-  if (n < totalPreguntas) {
-    mostrarPregunta(n + 1);
-  }
+function validateSection() {
+    const current = sections[currentSection];
+    const required = current.querySelectorAll('[required]');
+    return Array.from(required).every(input => input.reportValidity());
 }
 
-// Navegar a la pregunta anterior
-function anteriorPregunta(n) {
-  if (n > 1) {
-    mostrarPregunta(n - 1);
-  }
+function navigate(direction) {
+    if (direction === 1 && !validateSection()) return;
+    
+    sections[currentSection].classList.remove('active');
+    currentSection = Math.max(0, Math.min(currentSection + direction, totalSections - 1));
+    sections[currentSection].classList.add('active');
+    
+    document.getElementById('prevBtn').disabled = currentSection === 0;
+    document.getElementById('nextBtn').disabled = currentSection === totalSections - 1;
+    updateProgress();
 }
 
-// Habilitar/deshabilitar campo tipoEntidad según fuenteRecursos
-const fuenteRecursos = document.getElementById('fuenteRecursos');
-const tipoEntidad = document.getElementById('tipoEntidad');
+function addBudgetRow() {
+    const table = document.getElementById('budget-table').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    
+    newRow.innerHTML = `
+        <td><input type="date" required pattern="\\d{4}"></td>
+        <td>
+            <select required>
+                <option value="">Seleccione...</option>
+                <option>Menor a 499</option>
+                <option>Entre 500 y 699</option>
+                <option>Entre 700 y 899</option>
+                <option>Entre 900 y 1100</option>
+                <option>Mayor a 1101</option>
+            </select>
+        </td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">🗑️</button></td>
+    `;
+}
 
-fuenteRecursos.addEventListener('change', () => {
-  if (fuenteRecursos.value === 'externo') {
-    tipoEntidad.disabled = false;
-    tipoEntidad.setAttribute('aria-disabled', 'false');
-    tipoEntidad.required = true;
-  } else {
-    tipoEntidad.disabled = true;
-    tipoEntidad.setAttribute('aria-disabled', 'true');
-    tipoEntidad.required = false;
-    tipoEntidad.value = '';
-  }
-});
+function deleteRow(btn) {
+    const row = btn.closest('tr');
+    row.parentNode.removeChild(row);
+}
 
-// Manejo del envío del formulario
-document.getElementById('encuestaForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  // Validar última sección
-  const inputs = document.querySelectorAll(`#pregunta${totalPreguntas} input, #pregunta${totalPreguntas} select`);
-  for (const input of inputs) {
-    if (!input.checkValidity()) {
-      input.reportValidity();
-      return;
+// Event delegation para botones de eliminar
+document.addEventListener('click', function(e) {
+    if(e.target.classList.contains('delete-btn')) {
+        deleteRow(e.target);
     }
-  }
-
-  // Aquí puedes enviar los datos a un backend o mostrar resumen
-  alert('Gracias por completar la encuesta. Sus respuestas han sido registradas.');
-
-  this.reset();
-  mostrarPregunta(1);
 });
