@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Encuesta Personal Bienestar Universitario</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <h2>Personal por área de Bienestar Universitario</h2>
+  <form id="encuestaForm">
+    <table id="matriz">
+      <thead>
+        <tr>
+          <th>Año<br><span class="ejemplo">AAAA<br>Ej: 2024</span></th>
+          <th>Identificador Persona<br><span class="ejemplo">Número encriptado</span></th>
+          <th>Nivel jerárquico</th>
+          <th>Área Temática</th>
+          <th>Nivel educativo</th>
+          <th>Tipo de Contrato</th>
+          <th>Estado del contrato</th>
+          <th>Género</th>
+          <th>Fecha de nacimiento<br><span class="ejemplo">DD-MM-AAAA<br>Ej: 16-04-1980</span></th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+     <tbody id="matrizBody">
+        <!-- Filas dinámicas aquí -->
+      </tbody>
+    </table>
+    <button type="button" onclick="agregarFila()">Agregar fila</button>
+    <br><br>
+    <button type="submit">Enviar</button>
+  </form>
+  <script src="encuesta.js"></script>
+</body>
+</html>
