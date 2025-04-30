@@ -2,103 +2,180 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Encuesta Navegable</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    .pregunta { display: none; }
-    .pregunta.activa { display: block; }
-    .botones { margin-top: 20px; }
-    label { display: block; margin: 10px 0 5px; }
-    input, select { width: 100%; padding: 6px; }
-    .barra-progreso { margin-bottom: 20px; }
-    .barra-progreso span { margin-right: 10px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Encuesta Bienestar Universitario</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Encuesta de Presupuesto por Área</h1>
-  <div class="barra-progreso" id="barraProgreso">
-    Pregunta <span id="numPregunta">1</span> de <span id="totalPreguntas">2</span>
-  </div>
-  <form id="encuestaForm">
-    <!-- Pregunta 1 -->
-    <div class="pregunta activa" id="pregunta1">
-      <label for="anio">Año (Ej: 2024):</label>
-      <input type="text" id="anio" name="anio" pattern="\d{4}" placeholder="AAAA" required />
-      <div class="botones">
-        <button type="button" onclick="siguientePregunta(1)">Siguiente</button>
-      </div>
+  <main>
+    <h1>Encuesta Observatorio de Bienestar Universitario</h1>
+    <div id="barraProgreso" aria-label="Barra de progreso">
+      <span id="numPregunta">1</span> / <span id="totalPreguntas">4</span>
     </div>
-    <!-- Pregunta 2 -->
-    <div class="pregunta" id="pregunta2">
-      <label for="area">Área:</label>
-      <select id="area" name="area" required>
-        <option value="" disabled selected>Seleccione un área</option>
-        <option>Deporte</option>
-        <option>Actividad Física</option>
-        <option>Cultura</option>
-        <option>Salud</option>
-        <option>Deserción</option>
-      </select>
-      <label for="porcentaje">Porcentaje asignado (%):</label>
-      <input type="number" id="porcentaje" name="porcentaje" min="0" max="100" step="0.01" placeholder="Ej: 12" required />
-      <div class="botones">
-        <button type="button" onclick="anteriorPregunta(2)">Anterior</button>
-        <button type="submit">Enviar</button>
-      </div>
-    </div>
-  </form>
-  <div id="resultado"></div>
-  <script>
-    // Navegación entre preguntas
-    let preguntaActual = 1;
-    const totalPreguntas = 2;
-    document.getElementById('totalPreguntas').textContent = totalPreguntas;
+    <form id="encuestaForm" novalidate>
+      <!-- Sección 1: Presupuesto -->
+      <section class="pregunta activa" id="pregunta1" aria-label="Presupuesto asignado">
+        <h2>Sección 1: Gestión de Bienestar Universitario</h2>
+        <label for="anio1">Año (Ej: 2024):</label>
+        <input type="text" id="anio1" name="anio1" pattern="^\d{4}$" placeholder="AAAA" required aria-required="true" />
+        
+        <label for="presupuestoRango">Seleccione el rango Presupuesto anual destinado a Bienestar Universitario (millones de pesos):</label>
+        <select id="presupuestoRango" name="presupuestoRango" required aria-required="true">
+          <option value="" disabled selected>Seleccione un rango</option>
+          <option value="menor_499">Menor a 499</option>
+          <option value="500_699">Entre 500 y 699</option>
+          <option value="700_899">Entre 700 y 899</option>
+          <option value="900_1100">Entre 900 y 1100</option>
+          <option value="mayor_1101">Mayor a 1101</option>
+        </select>
 
-    function mostrarPregunta(n) {
-      for (let i = 1; i <= totalPreguntas; i++) {
-        document.getElementById('pregunta' + i).classList.remove('activa');
-      }
-      document.getElementById('pregunta' + n).classList.add('activa');
-      document.getElementById('numPregunta').textContent = n;
-      preguntaActual = n;
-    }
+        <div class="botones">
+          <button type="button" onclick="siguientePregunta(1)">Siguiente</button>
+        </div>
+      </section>
 
-    function siguientePregunta(n) {
-      // Validar antes de avanzar
-      const campos = document.querySelectorAll('#pregunta' + n + ' input, #pregunta' + n + ' select');
-      for (const campo of campos) {
-        if (!campo.checkValidity()) {
-          campo.reportValidity();
-          return;
-        }
-      }
-      mostrarPregunta(n + 1);
-    }
+      <!-- Sección 2: Fuente de recursos -->
+      <section class="pregunta" id="pregunta2" aria-label="Fuente de recursos">
+        <h2>Sección 1: Gestión de Bienestar Universitario (continuación)</h2>
+        <label for="anio2">Año (Ej: 2024):</label>
+        <input type="text" id="anio2" name="anio2" pattern="^\d{4}$" placeholder="AAAA" required aria-required="true" />
 
-    function anteriorPregunta(n) {
-      mostrarPregunta(n - 1);
-    }
+        <label for="fuenteRecursos">¿Cuál es la fuente de los recursos destinados anualmente por la IES para Bienestar Universitario?</label>
+        <select id="fuenteRecursos" name="fuenteRecursos" required aria-required="true">
+          <option value="" disabled selected>Seleccione la fuente</option>
+          <option value="interno">Interno</option>
+          <option value="externo">Externo</option>
+        </select>
 
-    // Envío del formulario
-    document.getElementById('encuestaForm').onsubmit = function(e) {
-      e.preventDefault();
-      // Validar última pregunta
-      const campos = document.querySelectorAll('#pregunta2 input, #pregunta2 select');
-      for (const campo of campos) {
-        if (!campo.checkValidity()) {
-          campo.reportValidity();
-          return;
-        }
-      }
-      // Mostrar resumen
-      const anio = document.getElementById('anio').value;
-      const area = document.getElementById('area').value;
-      const porcentaje = document.getElementById('porcentaje').value;
-      document.getElementById('resultado').textContent =
-        `¡Gracias! Año: ${anio}, Área: ${area}, Porcentaje: ${porcentaje}%`;
-      this.style.display = 'none';
-      document.getElementById('barraProgreso').style.display = 'none';
-    };
-  </script>
+        <label for="tipoEntidad">Si la fuente es externa, seleccione el tipo de entidad que provee los recursos:</label>
+        <select id="tipoEntidad" name="tipoEntidad" aria-disabled="true" disabled>
+          <option value="" disabled selected>Seleccione tipo de entidad</option>
+          <option value="caja_compensacion">Caja de Compensación</option>
+          <option value="empresa_privada">Empresa Privada</option>
+          <option value="gobierno">Gobierno</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <label for="porcentajeFuente">Seleccione el porcentaje según su fuente (millones de pesos):</label>
+        <select id="porcentajeFuente" name="porcentajeFuente" required aria-required="true">
+          <option value="" disabled selected>Seleccione porcentaje</option>
+          <option value="1_25">Entre el 1% y 25%</option>
+          <option value="26_50">Entre el 26% y 50%</option>
+          <option value="51_75">Entre el 51% y 75%</option>
+          <option value="76_100">Entre el 76% y 100%</option>
+        </select>
+
+        <div class="botones">
+          <button type="button" onclick="anteriorPregunta(2)">Anterior</button>
+          <button type="button" onclick="siguientePregunta(2)">Siguiente</button>
+        </div>
+      </section>
+
+      <!-- Sección 3: Presupuesto por área -->
+      <section class="pregunta" id="pregunta3" aria-label="Presupuesto asignado por área">
+        <h2>Sección 1: Presupuesto asignado a actividades</h2>
+        <label for="anio3">Año (Ej: 2024):</label>
+        <input type="text" id="anio3" name="anio3" pattern="^\d{4}$" placeholder="AAAA" required aria-required="true" />
+
+        <label for="areaPresupuesto">Seleccione el área:</label>
+        <select id="areaPresupuesto" name="areaPresupuesto" required aria-required="true">
+          <option value="" disabled selected>Seleccione un área</option>
+          <option value="deporte">Deporte</option>
+          <option value="actividad_fisica">Actividad Física</option>
+          <option value="cultura">Cultura</option>
+          <option value="salud">Salud</option>
+          <option value="desercion">Deserción</option>
+        </select>
+
+        <label for="porcentajePresupuesto">Registre el porcentaje asignado (%)</label>
+        <input type="number" id="porcentajePresupuesto" name="porcentajePresupuesto" min="0" max="100" step="0.1" required aria-required="true" />
+
+        <div class="botones">
+          <button type="button" onclick="anteriorPregunta(3)">Anterior</button>
+          <button type="button" onclick="siguientePregunta(3)">Siguiente</button>
+        </div>
+      </section>
+
+      <!-- Sección 4: Personal por área -->
+      <section class="pregunta" id="pregunta4" aria-label="Personal por área de Bienestar Universitario">
+        <h2>Sección 2: Personal por área de Bienestar Universitario</h2>
+        <label for="anio4">Año (Ej: 2024):</label>
+        <input type="text" id="anio4" name="anio4" pattern="^\d{4}$" placeholder="AAAA" required aria-required="true" />
+
+        <label for="identificadorPersona">Identificador Persona:</label>
+        <input type="text" id="identificadorPersona" name="identificadorPersona" required aria-required="true" />
+
+        <label for="nivelJerarquico">Nivel Jerárquico:</label>
+        <select id="nivelJerarquico" name="nivelJerarquico" required aria-required="true">
+          <option value="" disabled selected>Seleccione nivel jerárquico</option>
+          <option value="operativo">Operativo</option>
+          <option value="asistencial">Asistencial</option>
+          <option value="profesional">Profesional</option>
+          <option value="coordinacion">Coordinación</option>
+          <option value="jefatura">Jefatura</option>
+          <option value="direccion">Dirección</option>
+          <option value="vicerrectoria">Vicerrectoría</option>
+        </select>
+
+        <label for="areaTematica">Área Temática:</label>
+        <select id="areaTematica" name="areaTematica" required aria-required="true">
+          <option value="" disabled selected>Seleccione área temática</option>
+          <option value="deporte">Deporte</option>
+          <option value="actividad_fisica">Actividad Física</option>
+          <option value="cultura">Cultura</option>
+          <option value="salud">Salud</option>
+          <option value="desercion">Deserción</option>
+        </select>
+
+        <label for="nivelEducativo">Nivel Educativo:</label>
+        <select id="nivelEducativo" name="nivelEducativo" required aria-required="true">
+          <option value="" disabled selected>Seleccione nivel educativo</option>
+          <option value="basica">Básica</option>
+          <option value="media">Media</option>
+          <option value="tecnico_profesional">Técnico Profesional</option>
+          <option value="tecnologico">Tecnológico</option>
+          <option value="profesional">Profesional</option>
+          <option value="especializacion">Especialización</option>
+          <option value="maestria">Maestría</option>
+          <option value="doctorado">Doctorado</option>
+        </select>
+
+        <label for="tipoContrato">Tipo de Contrato:</label>
+        <select id="tipoContrato" name="tipoContrato" required aria-required="true">
+          <option value="" disabled selected>Seleccione tipo de contrato</option>
+          <option value="indefinido">Contrato a Término Indefinido</option>
+          <option value="fijo">Contrato a Término Fijo</option>
+          <option value="prestacion_servicios">Contrato civil por Prestación de Servicios</option>
+          <option value="obra_labor">Contrato Obra o Labor</option>
+          <option value="aprendizaje">Contrato de aprendizaje</option>
+        </select>
+
+        <label for="estadoContrato">Estado del Contrato:</label>
+        <select id="estadoContrato" name="estadoContrato" required aria-required="true">
+          <option value="" disabled selected>Seleccione estado del contrato</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+
+        <label for="genero">Género:</label>
+        <select id="genero" name="genero" required aria-required="true">
+          <option value="" disabled selected>Seleccione género</option>
+          <option value="femenino">Femenino</option>
+          <option value="masculino">Masculino</option>
+          <option value="no_binario">No Binario</option>
+        </select>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required aria-required="true" />
+
+        <div class="botones">
+          <button type="button" onclick="anteriorPregunta(4)">Anterior</button>
+          <button type="submit">Enviar</button>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
