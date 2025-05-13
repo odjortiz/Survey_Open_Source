@@ -3,66 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Observatorio de Bienestar Universitario</title>
+    <title>Encuesta de Bienestar Universitario</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>OBSERVATORIO DE BIENESTAR UNIVERSITARIO</h1>
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
-        </div>
-    </header>
-
-    <main>
-        <!-- Sección 1 - Gestión de Bienestar -->
-        <section class="survey-section active" data-section="0">
-            <h2>GESTIÓN DE BIENESTAR UNIVERSITARIO</h2>
-            
-            <!-- Subsección Presupuesto -->
-            <div class="subsection">
-                <h3>Presupuesto</h3>
-                
-                <div class="table-wrapper">
-                    <table id="budget-table">
-                        <thead>
-                            <tr>
-                                <th>Año (AAAA)</th>
-                                <th>Rango Presupuestal</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="date" required pattern="\d{4}"></td>
-                                <td>
-                                    <select required>
-                                        <option value="">Seleccione...</option>
-                                        <option>Menor a 499</option>
-                                        <option>Entre 500 y 699</option>
-                                        <option>Entre 700 y 899</option>
-                                        <option>Entre 900 y 1100</option>
-                                        <option>Mayor a 1101</option>
-                                    </select>
-                                </td>
-                                <td><button class="delete-btn">🗑️</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <main class="container">
+        <header>
+            <h1>Encuesta de Bienestar Universitario</h1>
+            <div class="progress-container">
+                <div class="progress-bar" id="globalProgress"></div>
+                <div class="progress-text">
+                    Sección <span id="currentSection">1</span>/<span id="totalSections"></span> |
+                    Pregunta <span id="currentQuestion">1</span>/<span id="totalQuestions"></span>
                 </div>
-                
-                <button class="add-row" onclick="addBudgetRow()">➕ Agregar Año</button>
             </div>
-        </section>
+        </header>
 
-        <!-- Más secciones pueden agregarse aquí -->
-        
-        <div class="navigation-buttons">
-            <button onclick="navigate(-1)" disabled id="prevBtn">Anterior</button>
-            <button onclick="navigate(1)" id="nextBtn">Siguiente</button>
-        </div>
+        <form id="surveyForm">
+            <!-- Secciones generadas dinámicamente via JS -->
+        </form>
+
+        <div class="system-message" id="systemMessage"></div>
     </main>
-
     <script src="script.js"></script>
 </body>
 </html>
